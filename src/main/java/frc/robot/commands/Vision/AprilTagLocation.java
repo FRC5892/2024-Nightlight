@@ -4,12 +4,12 @@
 
 package frc.robot.commands.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.apriltag.AprilTagVision3;;
+import frc.robot.subsystems.apriltag.VisionSubsytem;;
 
 public class AprilTagLocation extends Command{
-  private AprilTagVision3 vision;
+  private VisionSubsytem vision;
  /** Creates a new AprilTagLocation. */
-  public AprilTagLocation(AprilTagVision3 vision3) {
+  public AprilTagLocation(VisionSubsytem vision3) {
     this.vision = vision3;
     addRequirements(vision);
   }

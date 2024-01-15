@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
 import frc.robot.commands.*;
+import frc.robot.commands.Vision.AprilTagLocation;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.apriltag.VisionSubsytem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,6 +34,7 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final VisionSubsytem visionSubsytem = new VisionSubsytem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -45,6 +48,8 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+        visionSubsytem.setDefaultCommand(new AprilTagLocation(visionSubsytem));
+        
 
         // Configure the button bindings
         configureButtonBindings();

@@ -16,6 +16,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Quaternion;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +49,7 @@ public class VisionSubsytem extends SubsystemBase {
   private PhotonCamera camera;
   private PhotonPoseEstimator poseEstimator;
   private AprilTagFieldLayout fieldLayout;
-  private Pose2d visionPose;
+  private Pose2d visionPose = new Pose2d(0.0, 0.0, new Rotation2d(0.0));
   private Field2d field2d;
 
   /**
@@ -55,9 +57,13 @@ public class VisionSubsytem extends SubsystemBase {
    * 
    * @throws IOException
    */
-  public VisionSubsytem() throws IOException {
+  public VisionSubsytem() {
     camera = new PhotonCamera(VisionConstants.CAMERA_NAME);
-    fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
+    try {
+      fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
     poseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera,
         VisionConstants.ROBOT_TO_CAM);
     field2d = new Field2d();
@@ -79,7 +85,7 @@ public class VisionSubsytem extends SubsystemBase {
     SmartDashboard.putBoolean("test", false);
     Optional<EstimatedRobotPose> estimatedPose = getEstimatedGlobalPose(visionPose);
     if (estimatedPose.isPresent()) {
-      this.visionPose = getEstimatedGlobalPose(this.visionPose).get().estimatedPose.toPose2d();
+      this.visionPose = estimatedPose.get().estimatedPose.toPose2d();
     }
     var result = camera.getLatestResult();
     field2d.setRobotPose(this.visionPose);

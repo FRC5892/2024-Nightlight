@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
 import frc.robot.commands.*;
-import frc.robot.commands.Vision.AprilTagLocation;
+import frc.robot.commands.Vision.AddVisionPose;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.apriltag.VisionSubsytem;
 
@@ -48,7 +48,7 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
-        visionSubsytem.setDefaultCommand(new AprilTagLocation(visionSubsytem));
+        visionSubsytem.setDefaultCommand(new AddVisionPose(visionSubsytem,s_Swerve));
         
 
         // Configure the button bindings

@@ -4,8 +4,9 @@
 
 package frc.robot.subsystems.apriltag;
 
-import frc.robot.commands.Vision.AprilTagLocation;
+import frc.robot.commands.Vision.AddVisionPose;
 import frc.robot.subsystems.apriltag.*;
+import frc.robot.Robot;
 import frc.robot.Constants.VisionConstants;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.io.IOException;
@@ -49,6 +51,7 @@ public class VisionSubsytem extends SubsystemBase {
   private PhotonCamera camera;
   private PhotonPoseEstimator poseEstimator;
   private AprilTagFieldLayout fieldLayout;
+  private double poseTimestamp;
   private Pose2d visionPose = new Pose2d(0.0, 0.0, new Rotation2d(0.0));
   private Field2d field2d;
 
@@ -67,25 +70,30 @@ public class VisionSubsytem extends SubsystemBase {
     poseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camera,
         VisionConstants.ROBOT_TO_CAM);
     field2d = new Field2d();
-    SmartDashboard.putData(field2d);
+    SmartDashboard.putData("Vision estimated Pose",field2d);
+
+    poseTimestamp = Timer.getFPGATimestamp();
   }
 
-  public double returnYaw() {
-    return yaww;
-  }
 // feed into SwerveDrivePoseEstimator
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
     poseEstimator.setReferencePose(prevEstimatedRobotPose);
     return poseEstimator.update();
     
   }
+  public Pose2d getVisionPose() {
+    return visionPose;
+  } 
+  public Double getVisionTimestamp () {
+    return poseTimestamp;
+  }
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("test", false);
     Optional<EstimatedRobotPose> estimatedPose = getEstimatedGlobalPose(visionPose);
     if (estimatedPose.isPresent()) {
       this.visionPose = estimatedPose.get().estimatedPose.toPose2d();
+      this.poseTimestamp = estimatedPose.get().timestampSeconds;
     }
     var result = camera.getLatestResult();
     field2d.setRobotPose(this.visionPose);

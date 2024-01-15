@@ -4,26 +4,29 @@
 
 package frc.robot.commands.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.apriltag.VisionSubsytem;;
 
-public class AprilTagLocation extends Command{
+public class AddVisionPose extends Command{
   private VisionSubsytem vision;
+  private Swerve swerveSubsytem;
  /** Creates a new AprilTagLocation. */
-  public AprilTagLocation(VisionSubsytem vision3) {
+  public AddVisionPose(VisionSubsytem vision3, Swerve swerve) {
     this.vision = vision3;
+    this.swerveSubsytem = swerve;
     addRequirements(vision);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // System.out.println(vision.returnYaw());
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    swerveSubsytem.addVisionMeasurement(vision.getVisionPose(), vision.getVisionTimestamp());
 
   }
 

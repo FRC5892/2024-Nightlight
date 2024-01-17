@@ -105,6 +105,7 @@ public class VisionSubsytem extends SubsystemBase {
     var result = camera.getLatestResult();
     field2d.setRobotPose(this.visionPose);
     
+    
 
 
     
@@ -113,6 +114,8 @@ public class VisionSubsytem extends SubsystemBase {
     // SmartDashboard.putBoolean("Hi", false);
 
     if (result.hasTargets()) {
+      // field2d.getObject("apriltag").setPoses(result.getTargets().);
+
       var target = result.getBestTarget();
       // turn to target!!
       var yaw = target.getYaw();

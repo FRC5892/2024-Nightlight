@@ -46,7 +46,6 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 public class VisionSubsytem extends SubsystemBase {
 
-  private double yaww;
   public float target;
   private PhotonCamera camera;
   private PhotonPoseEstimator poseEstimator;
@@ -54,6 +53,7 @@ public class VisionSubsytem extends SubsystemBase {
   private double poseTimestamp;
   private Pose2d visionPose = new Pose2d(0.0, 0.0, new Rotation2d(0.0));
   private Field2d field2d;
+  private Pose2d referencePose = new Pose2d(0.0, 0.0, new Rotation2d(0.0));
 
   /**
    * Creates a new AprilTagVision3.
@@ -61,6 +61,7 @@ public class VisionSubsytem extends SubsystemBase {
    * @throws IOException
    */
   public VisionSubsytem() {
+
     camera = new PhotonCamera(VisionConstants.CAMERA_NAME);
     try {
       fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
@@ -74,8 +75,8 @@ public class VisionSubsytem extends SubsystemBase {
 
     poseTimestamp = Timer.getFPGATimestamp();
   }
-
-// feed into SwerveDrivePoseEstimator
+  
+  // feed into SwerveDrivePoseEstimator
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
     poseEstimator.setReferencePose(prevEstimatedRobotPose);
     return poseEstimator.update();
@@ -87,10 +88,16 @@ public class VisionSubsytem extends SubsystemBase {
   public Double getVisionTimestamp () {
     return poseTimestamp;
   }
-
+  
+  public Pose2d getReferencePose() {
+    return referencePose;
+  }
+  public void setReferencePose(Pose2d referencePose) {
+    this.referencePose = referencePose;
+  } 
   @Override
   public void periodic() {
-    Optional<EstimatedRobotPose> estimatedPose = getEstimatedGlobalPose(visionPose);
+    Optional<EstimatedRobotPose> estimatedPose = getEstimatedGlobalPose(referencePose);
     if (estimatedPose.isPresent()) {
       this.visionPose = estimatedPose.get().estimatedPose.toPose2d();
       this.poseTimestamp = estimatedPose.get().timestampSeconds;
@@ -101,7 +108,7 @@ public class VisionSubsytem extends SubsystemBase {
 
 
     
-
+    SmartDashboard.putNumber("Vision estimated Angle",getVisionPose().getRotation().getDegrees());
     SmartDashboard.putBoolean("Has Targets", result.hasTargets());
     // SmartDashboard.putBoolean("Hi", false);
 
@@ -114,7 +121,6 @@ public class VisionSubsytem extends SubsystemBase {
       // getBest finds ALL data to target: distance, degree rotation, degree upright,
       // etc.
       var camToTarget = target.getBestCameraToTarget();
-      yaww = yaw;
 
       SmartDashboard.putNumber("Tag Yaw", target.getYaw());
 

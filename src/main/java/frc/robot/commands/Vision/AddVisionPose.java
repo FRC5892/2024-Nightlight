@@ -20,14 +20,13 @@ public class AddVisionPose extends Command{
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     swerveSubsytem.addVisionMeasurement(vision.getVisionPose(), vision.getVisionTimestamp());
-
+    vision.setReferencePose(swerveSubsytem.getPose());
   }
 
   // Called once the command ends or is interrupted.

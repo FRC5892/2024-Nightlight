@@ -39,11 +39,11 @@ public final class Constants {
 
         // TODO: change me
         public static final Pose2d INITIAL_POSE = new Pose2d(0, 0, new Rotation2d(0));
-        
+
         //Standard deviations of the pose estimate (x position in meters, y position
         //in meters, and heading in radians). Increase these numbers to trust your state estimate
         //less.
-        public static final Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
+        public static final Matrix<N3, N1> stateStdDevs = VecBuilder.fill(10, 10, Units.degreesToRadians(5));
 
         //Standard deviations of the vision pose measurement (x position
         //in meters, y position in meters, and heading in radians). Increase these numbers to trust

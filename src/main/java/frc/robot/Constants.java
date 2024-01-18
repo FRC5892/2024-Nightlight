@@ -24,6 +24,7 @@ public final class Constants {
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(17); //TODO: This must be tuned to specific robot
         public static final double wheelBase = Units.inchesToMeters(15); //TODO: This must be tuned to specific robot
+        public static final double wheelDiameter = Units.inchesToMeters(4.0);
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 
@@ -127,6 +128,18 @@ public final class Constants {
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
+        
+        /* Swerve Current Limiting */
+        public static final int angleContinuousCurrentLimit = 20;      
+        public static int driveContinuousCurrentLimit = 50;
+
+        /* Drive Motor Conversion Factors */
+        public static final double driveConversionVelocityFactor = ((wheelDiameter * Math.PI) / driveGearRatio)
+        / 60.0;
+        public static final double angleConversionFactor = 360.0 / angleGearRatio;
+
+        /* Swerve Compensation */
+        public static double voltageComp = 12.0;
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot

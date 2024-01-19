@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.subsystems.Swerve;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.lib.math.Conversions;
 import frc.lib.util.SwerveModuleConstants;
+import frc.robot.Constants;
+import frc.robot.Constants.Swerve;
 
 public class SwerveModule {
     public int moduleNumber;

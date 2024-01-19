@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Angle;
+import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.lib.math.Conversions;
 import frc.lib.util.SwerveModuleConstants;
@@ -32,7 +33,7 @@ public class SwerveModule {
     private CANSparkMax angleMotor;
     private CANSparkMax driveMotor;
 
-    private CANcoder angleEncoder;
+    private AnalogEncoder angleEncoder;
     private RelativeEncoder driveEncoder;
     private RelativeEncoder integratedAngleEncoder;
 
@@ -55,8 +56,7 @@ public class SwerveModule {
         this.angleOffset = moduleConstants.angleOffset;
         
         /* Angle Encoder Config */
-        angleEncoder = new CANcoder(moduleConstants.cancoderID);
-        angleEncoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
+        angleEncoder = new AnalogEncoder(moduleConstants.AbsoluteEncoderID);
 
         /* Angle Motor Config */
         // mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
@@ -151,7 +151,7 @@ public class SwerveModule {
     }
 
     public Rotation2d getCANcoder(){
-        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition());
         //return Rotation2d.fromDegrees(moduleNumber)
     }
 

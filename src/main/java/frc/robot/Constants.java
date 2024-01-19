@@ -44,7 +44,8 @@ public final class Constants {
         public static final InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
 
         /* Angle Encoder Invert */
-        public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
+        // Unimplemented
+        // public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
 
         /* Swerve Current Limiting */
         public static final int angleCurrentLimit = 25;

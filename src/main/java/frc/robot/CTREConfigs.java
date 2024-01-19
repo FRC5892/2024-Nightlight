@@ -6,11 +6,12 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 public final class CTREConfigs {
     public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
     public TalonFXConfiguration swerveDriveFXConfig = new TalonFXConfiguration();
-    public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
+    // public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
 
     public CTREConfigs(){
         /** Swerve CANCoder Configuration */
-        swerveCANcoderConfig.MagnetSensor.SensorDirection = Constants.Swerve.cancoderInvert;
+        // unimplemented
+        // swerveCANcoderConfig.MagnetSensor.SensorDirection = Constants.Swerve.cancoderInvert;
 
         /** Swerve Angle Motor Configurations */
         /* Motor Inverts and Neutral Mode */

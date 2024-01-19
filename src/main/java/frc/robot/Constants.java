@@ -59,8 +59,9 @@ public final class Constants {
                 COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L1);
 
         /* Drivetrain Constants */
-        public static final double trackWidth = Units.inchesToMeters(17); // TODO: This must be tuned to specific robot
-        public static final double wheelBase = Units.inchesToMeters(15); // TODO: This must be tuned to specific robot
+        public static final double trackWidth = Units.inchesToMeters(17); //TODO: This must be tuned to specific robot
+        public static final double wheelBase = Units.inchesToMeters(15); //TODO: This must be tuned to specific robot
+        public static final double wheelDiameter = Units.inchesToMeters(4.0);
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /*
@@ -83,7 +84,8 @@ public final class Constants {
         public static final InvertedValue driveMotorInvert = chosenModule.driveMotorInvert;
 
         /* Angle Encoder Invert */
-        public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
+        // Unimplemented
+        // public static final SensorDirectionValue cancoderInvert = chosenModule.cancoderInvert;
 
         /* Swerve Current Limiting */
         public static final int angleCurrentLimit = 25;
@@ -170,6 +172,18 @@ public final class Constants {
             public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
                     canCoderID, angleOffset);
         }
+        
+        /* Swerve Current Limiting */
+        public static final int angleContinuousCurrentLimit = 20;      
+        public static int driveContinuousCurrentLimit = 50;
+
+        /* Drive Motor Conversion Factors */
+        public static final double driveConversionVelocityFactor = ((wheelDiameter * Math.PI) / driveGearRatio)
+        / 60.0;
+        public static final double angleConversionFactor = 360.0 / angleGearRatio;
+
+        /* Swerve Compensation */
+        public static double voltageComp = 12.0;
     }
 
     public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be

@@ -18,14 +18,12 @@ public final class Constants {
     public static final class Swerve {
         public static final int pigeonID = 13;
 
-        public static final COTSTalonFXSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-        COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L1);
 
         /* Drivetrain Constants */
         public static final double trackWidth = Units.inchesToMeters(17); //TODO: This must be tuned to specific robot
         public static final double wheelBase = Units.inchesToMeters(15); //TODO: This must be tuned to specific robot
         public static final double wheelDiameter = Units.inchesToMeters(4.0);
-        public static final double wheelCircumference = chosenModule.wheelCircumference;
+        public static final double wheelCircumference = 12.57;
 
         /* Swerve Kinematics 
          * No need to ever change this unless you are not doing a traditional rectangular/square 4 module swerve */
@@ -36,8 +34,8 @@ public final class Constants {
             new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
         /* Module Gear Ratios */
-        public static final double driveGearRatio = chosenModule.driveGearRatio;
-        public static final double angleGearRatio = chosenModule.angleGearRatio;
+        public static final double driveGearRatio = 18/45;
+        public static final double angleGearRatio = 28.1/1;
 
         /* Motor Inverts */
         public static final InvertedValue angleMotorInvert = chosenModule.angleMotorInvert;

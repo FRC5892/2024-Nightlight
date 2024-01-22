@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
 import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+// import frc.robot.subsystems.*;
 import frc.robot.subsystems.Swerve.Swerve;
 
 /**
@@ -27,12 +27,14 @@ public class RobotContainer {
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
+    
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    // private final VisionSubsytem visionSubsytem = new VisionSubsytem();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -46,6 +48,8 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+        // visionSubsytem.setDefaultCommand(new AddVisionPose(visionSubsytem,s_Swerve));
+        
 
         // Configure the button bindings
         configureButtonBindings();

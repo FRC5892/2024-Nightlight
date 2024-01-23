@@ -26,7 +26,7 @@ import frc.robot.Constants.Swerve;
 
 public class SwerveModule {
     public int moduleNumber;
-    private Rotation2d lastAngle;
+    private Rotation2d lastAngle = new Rotation2d(0);
     private Rotation2d angleOffset;
 
     // private TalonFX mAngleMotor;
@@ -115,7 +115,8 @@ public class SwerveModule {
             ? lastAngle
             : desiredState.angle;
     
-        angleController.setReference(angle.getDegrees(), ControlType.kPosition);
+        angleController.setReference(-angle.getDegrees(), ControlType.kPosition); 
+        //WE PUT IN A NEGATIVE FOR COUNTERCLOCKWISE
         lastAngle = angle;
       }
     
@@ -165,7 +166,7 @@ public class SwerveModule {
     }
 
     private Rotation2d getAngle() {
-        return Rotation2d.fromDegrees(integratedAngleEncoder.getPosition());
+        return Rotation2d.fromDegrees(-integratedAngleEncoder.getPosition()); // hope this works
       }
 
     public SwerveModuleState getState(){

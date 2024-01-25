@@ -68,7 +68,6 @@ public class SwerveModule {
         integratedAngleEncoder = angleMotor.getEncoder();
         angleController = angleMotor.getPIDController();
         configAngleMotor();
-        resetToAbsolute();
 
         /* Drive Motor Config */
         // mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
@@ -78,7 +77,6 @@ public class SwerveModule {
         driveEncoder = driveMotor.getEncoder();
         driveController = driveMotor.getPIDController();
         configDriveMotor();
-        resetToAbsolute();
     }
 
     private void configAngleMotor() {
@@ -92,8 +90,9 @@ public class SwerveModule {
         angleController.setI(Constants.Swerve.angleKI);
         angleController.setD(Constants.Swerve.angleKD);
         angleMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
-        angleMotor.burnFlash();
         resetToAbsolute();
+        angleMotor.burnFlash();
+
       }
 
       private void configDriveMotor() {
@@ -107,6 +106,8 @@ public class SwerveModule {
         driveMotor.enableVoltageCompensation(Constants.Swerve.voltageComp);
         driveMotor.burnFlash();
         driveEncoder.setPosition(0.0);
+        driveMotor.burnFlash();
+
       }
 
       private void setAngle(SwerveModuleState desiredState) {
@@ -159,10 +160,11 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute(){
-        double absolutePosition = getCANcoder().getDegrees() - angleOffset.getDegrees();
+        // double absolutePosition = getCANcoder().getDegrees() - angleOffset.getDegrees();
+        double absolutePosition = -angleOffset.getDegrees();
+
         //mAngleMotor.setPosition(absolutePosition);
         integratedAngleEncoder.setPosition(absolutePosition);
-
     }
 
     private Rotation2d getAngle() {
